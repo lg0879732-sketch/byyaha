@@ -26,7 +26,37 @@
       const v = (e) => /[^\s@]+@[^\s@]+\.[^\s@]+/.test(e);
       const submit = (e) => { e.preventDefault(); if (!v(email)) return setMsg("Enter a valid email."); setMsg("Thanks! (preview)"); setEmail(""); };
       const Feature = ({ title, desc }) => (<div className="rounded-2xl p-5 bg-white/70 shadow-sm border border-black/5"><h3 className="font-semibold text-lg mb-2">{title}</h3><p className="text-sm text-black/70">{desc}</p></div>);
-      const Card = ({ badge, title, bullets, cta, href }) => (<div className="rounded-2xl p-6 bg-white shadow-sm border border-black/10 flex flex-col justify-between"><div><div className="text-xs uppercase tracking-widest mb-2 opacity-70">{badge}</div><h4 className="font-semibold text-xl mb-3">{title}</h4><ul className="space-y-2 list-disc pl-5 text-black/80">{bullets.map((b, i) => (<li key={i} className="text-sm">{b}</li>))}</ul></div>{cta && (<a href={href} className="mt-6 inline-flex justify-center rounded-xl px-4 py-2 border border-black/10 shadow">{cta}</a>)}</div>);
+      const Card = ({ badge, title, bullets, cta, href, download }) => (
+        <div className="rounded-2xl p-6 bg-white shadow-sm border border-black/10 flex flex-col justify-between">
+          <div>
+            <div className="text-xs uppercase tracking-widest mb-2 opacity-70">{badge}</div>
+            <h4 className="font-semibold text-xl mb-3">{title}</h4>
+            <ul className="space-y-2 list-disc pl-5 text-black/80">{bullets.map((b, i) => (<li key={i} className="text-sm">{b}</li>))}</ul>
+          </div>
+          {cta && (
+            <button onClick={() => window.openDownloadModal && window.openDownloadModal(href, download)} className="mt-6 inline-flex justify-center rounded-xl px-4 py-2 border border-black/10 shadow">
+              {cta}
+            </button>
+          )}
+        </div>
+      );
+
+      window.openDownloadModal = (fileUrl, fileName) => {
+        const modal = document.getElementById('dl-modal');
+        const form = document.getElementById('dl-form');
+        form.dataset.file = fileUrl;
+        form.dataset.name = fileName || '';
+        modal.classList.remove('hidden');
+      };
+
+      const sendPdf = async (email, filename) => {
+        const res = await fetch('/api/send-pdf', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, filename })
+        });
+        return res.json();
+      };
       return (<div className="min-h-screen">
         <header className="sticky top-0 z-50 bg-[#f6c44b]/90 border-b border-black/10">
           <div className="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
@@ -65,8 +95,8 @@
             <p className="mt-4 text-black/80 max-w-prose">Language, boundaries, and a plan to invite him toward change without lighting a fuse.</p>
             <div className="mt-6 grid md:grid-cols-3 gap-4 items-start">
               <div className="md:col-span-2 grid sm:grid-cols-2 gap-4">
-                <Card badge="Guide" title="3 Ways to Introduce the Book" bullets={["“I want us safer together—this is practical.”", "Try the 7‑Day Reset", "Trade one‑chapter reads + 10‑minute talks"]} cta="Download One‑Pager" href="#couples" />
-                <Card badge="Boundary Scripts" title="Loving, Clear, Non‑Negotiable" bullets={["“I won't argue while heated—let’s pause.”", "“I’m leaving 20 min; then I’m ready to talk.”", "“I’m safe when your voice is calm.”"]} cta="Get Scripts" href="#couples" />
+                <Card badge="Guide" title="3 Ways to Introduce the Book" bullets={["“I want us safer together—this is practical.”", "Try the 7‑Day Reset", "Trade one‑chapter reads + 10‑minute talks"]} cta="Download One‑Pager" href="Introduce%20the%20book.pdf" download="Introduce the book.pdf" />
+                <Card badge="Boundary Scripts" title="Loving, Clear, Non‑Negotiable" bullets={["“I won't argue while heated—let’s pause.”", "“I’m leaving 20 min; then I’m ready to talk.”", "“I’m safe when your voice is calm.”"]} cta="Get Scripts" href="boundary%20scripts.pdf" download="boundary scripts.pdf" />
               </div>
               <aside className="rounded-2xl p-5 bg-white shadow border border-black/10">
                 <h3 className="font-semibold">What changes when he has tools</h3>
@@ -315,6 +345,43 @@
         <div className="md:hidden fixed bottom-4 inset-x-4 flex gap-3">
           <a href={AMAZON_URL} target="_blank" rel="noopener noreferrer" className="flex-1 text-center rounded-xl bg-black text-white px-4 py-3 font-semibold shadow-xl">Buy on Amazon</a>
           <a href="#couples" className="flex-1 text-center rounded-xl bg-white/80 backdrop-blur border border-black/10 px-4 py-3 font-semibold shadow">Couples Exercise</a>
+        </div>
+
+        {/* Download via Email Modal */}
+        <div id="dl-modal" className="hidden fixed inset-0 z-[200] bg-black/60 backdrop-blur-sm grid place-items-center p-4">
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md">
+            <div className="p-4 border-b flex items-center justify-between">
+              <div className="font-semibold">Get the PDF by Email</div>
+              <button onClick={() => document.getElementById('dl-modal').classList.add('hidden')} className="rounded-lg px-2 py-1 border">✕</button>
+            </div>
+            <form id="dl-form" className="p-4 space-y-3" onSubmit={async (e) => {
+              e.preventDefault();
+              const form = e.currentTarget;
+              const emailInput = document.getElementById('dl-email');
+              const email = emailInput.value.trim();
+              const fileUrl = form.dataset.file;
+              const fileName = form.dataset.name || fileUrl;
+              const msg = document.getElementById('dl-msg');
+              const ok = /[^\s@]+@[^\s@]+\.[^\s@]+/.test(email);
+              if (!ok) { msg.textContent = 'Enter a valid email.'; return; }
+              msg.textContent = 'Sending…';
+              try {
+                const r = await sendPdf(email, decodeURIComponent(fileName));
+                if (r && r.ok) { msg.textContent = 'Sent! Check your inbox.'; emailInput.value = ''; }
+                else { msg.textContent = r?.error || 'Failed to send. Try again later.'; }
+              } catch (_) {
+                msg.textContent = 'Network error. Try again later.';
+              }
+            }}>
+              <label className="block text-sm font-medium">Email address</label>
+              <input id="dl-email" type="email" required className="mt-1 w-full rounded-xl border border-black/20 px-3 py-2" placeholder="you@example.com" />
+              <div id="dl-msg" className="text-xs text-black/70"></div>
+              <div className="pt-1 flex gap-2 justify-end">
+                <button type="button" onClick={() => document.getElementById('dl-modal').classList.add('hidden')} className="rounded-xl px-4 py-2 border">Cancel</button>
+                <button type="submit" className="rounded-xl bg-black text-white px-4 py-2 font-semibold">Send PDF</button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>);
     }

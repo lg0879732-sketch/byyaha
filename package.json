@@ -1,0 +1,9 @@
+{
+    "name": "byyaha-site",
+    "version": "1.0.0",
+    "private": true,
+    "license": "MIT",
+    "dependencies": {
+        "resend": "^2.2.0"
+    }
+}
