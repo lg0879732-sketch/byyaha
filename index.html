@@ -1,30 +1,32 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Before You Yell At Her Again — Landing</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
-    tailwind.config = { safelist: ['bg-[#f6c44b]','bg-[#f5efe6]','bg-white/90','bg-white/80','text-black/80','text-black/70','border-black/10','border-black/20','shadow-2xl'] }
+    tailwind.config = { safelist: ['bg-[#f6c44b]', 'bg-[#f5efe6]', 'bg-white/90', 'bg-white/80', 'text-black/80', 'text-black/70', 'border-black/10', 'border-black/20', 'shadow-2xl'] }
   </script>
   <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 </head>
+
 <body class="min-h-screen bg-white text-black antialiased">
   <div id="root"></div>
   <script type="text/babel">
     const { useState } = React;
-    function App(){
+    function App() {
       const AMAZON_URL = "https://www.amazon.com/dp/XXXXXXXX"; // TODO replace
       const [open, setOpen] = useState(false);
       const [email, setEmail] = useState("");
       const [msg, setMsg] = useState("");
-      const v = (e)=>/[^\s@]+@[^\s@]+\.[^\s@]+/.test(e);
-      const submit = (e)=>{e.preventDefault(); if(!v(email)) return setMsg("Enter a valid email."); setMsg("Thanks! (preview)"); setEmail("");};
-      const Feature = ({title,desc})=> (<div className="rounded-2xl p-5 bg-white/70 shadow-sm border border-black/5"><h3 className="font-semibold text-lg mb-2">{title}</h3><p className="text-sm text-black/70">{desc}</p></div>);
-      const Card = ({badge,title,bullets,cta,href})=> (<div className="rounded-2xl p-6 bg-white shadow-sm border border-black/10 flex flex-col justify-between"><div><div className="text-xs uppercase tracking-widest mb-2 opacity-70">{badge}</div><h4 className="font-semibold text-xl mb-3">{title}</h4><ul className="space-y-2 list-disc pl-5 text-black/80">{bullets.map((b,i)=>(<li key={i} className="text-sm">{b}</li>))}</ul></div>{cta&&(<a href={href} className="mt-6 inline-flex justify-center rounded-xl px-4 py-2 border border-black/10 shadow">{cta}</a>)}</div>);
+      const v = (e) => /[^\s@]+@[^\s@]+\.[^\s@]+/.test(e);
+      const submit = (e) => { e.preventDefault(); if (!v(email)) return setMsg("Enter a valid email."); setMsg("Thanks! (preview)"); setEmail(""); };
+      const Feature = ({ title, desc }) => (<div className="rounded-2xl p-5 bg-white/70 shadow-sm border border-black/5"><h3 className="font-semibold text-lg mb-2">{title}</h3><p className="text-sm text-black/70">{desc}</p></div>);
+      const Card = ({ badge, title, bullets, cta, href }) => (<div className="rounded-2xl p-6 bg-white shadow-sm border border-black/10 flex flex-col justify-between"><div><div className="text-xs uppercase tracking-widest mb-2 opacity-70">{badge}</div><h4 className="font-semibold text-xl mb-3">{title}</h4><ul className="space-y-2 list-disc pl-5 text-black/80">{bullets.map((b, i) => (<li key={i} className="text-sm">{b}</li>))}</ul></div>{cta && (<a href={href} className="mt-6 inline-flex justify-center rounded-xl px-4 py-2 border border-black/10 shadow">{cta}</a>)}</div>);
       return (<div className="min-h-screen">
         <header className="sticky top-0 z-50 bg-[#f6c44b]/90 border-b border-black/10">
           <div className="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
@@ -46,7 +48,14 @@
                 <a href="#for-him" className="rounded-xl px-5 py-3 text-sm font-semibold border border-black/20 bg-white/70">I’m Ready To Change</a>
               </div>
             </div>
-            <div className="aspect-[3/4] w-full rounded-3xl overflow-hidden shadow-2xl border border-black/10 bg-white grid place-items-center text-sm text-black/50">Book Cover</div>
+            <div className="aspect-[2/3] w-3/4 rounded-3xl overflow-hidden shadow-2xl border border-black/10">
+              <img
+                src="New Updated Wrap BYYAHA.png"
+                alt="Before You Yell At Her Again - Book Cover"
+                className="w-full h-full object-cover"
+                style={{ objectPosition: "100% center", transform: "scale(1)" }}
+              />
+            </div>
           </div>
         </section>
 
@@ -56,8 +65,8 @@
             <p className="mt-4 text-black/80 max-w-prose">Language, boundaries, and a plan to invite him toward change without lighting a fuse.</p>
             <div className="mt-6 grid md:grid-cols-3 gap-4 items-start">
               <div className="md:col-span-2 grid sm:grid-cols-2 gap-4">
-                <Card badge="Guide" title="3 Ways to Introduce the Book" bullets={["“I want us safer together—this is practical.”","Try the 7‑Day Reset","Trade one‑chapter reads + 10‑minute talks"]} cta="Download One‑Pager" href="#couples" />
-                <Card badge="Boundary Scripts" title="Loving, Clear, Non‑Negotiable" bullets={["“I won't argue while heated—let’s pause.”","“I’m leaving 20 min; then I’m ready to talk.”","“I’m safe when your voice is calm.”"]} cta="Get Scripts" href="#couples" />
+                <Card badge="Guide" title="3 Ways to Introduce the Book" bullets={["“I want us safer together—this is practical.”", "Try the 7‑Day Reset", "Trade one‑chapter reads + 10‑minute talks"]} cta="Download One‑Pager" href="#couples" />
+                <Card badge="Boundary Scripts" title="Loving, Clear, Non‑Negotiable" bullets={["“I won't argue while heated—let’s pause.”", "“I’m leaving 20 min; then I’m ready to talk.”", "“I’m safe when your voice is calm.”"]} cta="Get Scripts" href="#couples" />
               </div>
               <aside className="rounded-2xl p-5 bg-white shadow border border-black/10">
                 <h3 className="font-semibold">What changes when he has tools</h3>
@@ -96,12 +105,12 @@
                   <ul className="mt-3 grid sm:grid-cols-2 gap-2 text-sm text-black/80">
                     <li>Constant unresolved arguments</li><li>Emotional distance</li><li>Financial stress</li><li>Feeling ignored/disrespected</li><li>Built‑up resentment</li><li>One blow‑up moment</li>
                   </ul>
-                  <button onClick={()=>setOpen(true)} className="mt-4 inline-flex text-sm font-semibold underline">Open full excerpt</button>
+                  <button onClick={() => setOpen(true)} className="mt-4 inline-flex text-sm font-semibold underline">Open full excerpt</button>
                 </div>
               </div>
               <div className="rounded-2xl p-6 bg-white/90 border border-black/10 shadow-sm">
                 <h3 className="font-semibold text-lg">Do the Exercise</h3>
-                <form className="mt-4 space-y-4" onSubmit={(e)=>e.preventDefault()}>
+                <form className="mt-4 space-y-4" onSubmit={(e) => e.preventDefault()}>
                   <div><label className="block text-sm font-medium">✍️ Part 1: What I Think I Did</label><textarea className="mt-1 w-full rounded-xl border border-black/20 bg-white/80 px-3 py-2" rows="5" placeholder="Behaviors, patterns, words that made her feel unsafe or shut out."></textarea></div>
                   <div><label className="block text-sm font-medium">💬 Part 2: Her Response</label><textarea className="mt-1 w-full rounded-xl border border-black/20 bg-white/80 px-3 py-2" rows="5" placeholder="Baby, I’d like to know how I’ve hurt you that I’m not seeing or understanding — especially the things that are hard to say when we try to talk. Please take your time. This matters because you matter to me."></textarea></div>
                   <div className="rounded-xl bg-white/80 border border-black/10 p-4 text-sm">
@@ -110,16 +119,16 @@
                     <p className="mt-2 text-black/70">Listen to the pain without becoming the storm.</p>
                   </div>
                   <div className="flex flex-wrap gap-3">
-                    <button type="button" onClick={()=>window.print()} className="rounded-xl bg-black text-white px-4 py-2 text-sm font-semibold">Print Exercise</button>
+                    <button type="button" onClick={() => window.print()} className="rounded-xl bg-black text-white px-4 py-2 text-sm font-semibold">Print Exercise</button>
                     <a href={AMAZON_URL} target="_blank" rel="noopener noreferrer" className="rounded-xl px-4 py-2 text-sm font-semibold border border-black/20 bg-white/90">Buy the Workbook on Amazon</a>
                   </div>
                 </form>
               </div>
             </div>
 
-            {open && (<div role="dialog" aria-modal="true" className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm grid place-items-center p-4" onClick={(e)=>{ if(e.target===e.currentTarget) setOpen(false); }}>
+            {open && (<div role="dialog" aria-modal="true" className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm grid place-items-center p-4" onClick={(e) => { if (e.target === e.currentTarget) setOpen(false); }}>
               <div className="bg-white rounded-2xl shadow-2xl w-full max-w-3xl h-[75vh] flex flex-col">
-                <div className="p-3 border-b flex items-center justify-between"><div className="font-semibold text-sm">Excerpt — The Slow Decline (or Sudden Explosion)</div><button onClick={()=>setOpen(false)} className="rounded-lg px-2 py-1 border">✕</button></div>
+                <div className="p-3 border-b flex items-center justify-between"><div className="font-semibold text-sm">Excerpt — The Slow Decline (or Sudden Explosion)</div><button onClick={() => setOpen(false)} className="rounded-lg px-2 py-1 border">✕</button></div>
                 <div className="flex-1 overflow-auto p-6 text-sm leading-relaxed text-black/80 space-y-3">
                   <p>Every relationship ends differently. Check off what applied to yours:</p>
                   <ul className="list-disc pl-5 space-y-1">
@@ -212,7 +221,7 @@
           <div className="mx-auto max-w-6xl px-4 py-10 grid md:grid-cols-3 gap-8">
             <div><div className="font-semibold">Need help now?</div><ul className="mt-3 space-y-1 text-sm text-white/80"><li>• In danger? Call 911</li><li>• National DV Hotline: 1‑800‑799‑SAFE</li><li>• 988 Suicide & Crisis Lifeline</li></ul></div>
             <div><div className="font-semibold">About the Author</div><p className="mt-3 text-sm text-white/80">Written from the middle of real life — a bridge for men who want to change.</p></div>
-            <div><div className="font-semibold">Stay in the Loop</div><form className="mt-3 flex gap-2" onSubmit={submit} noValidate><input type="email" className="flex-1 rounded-xl px-3 py-2 text-black" placeholder="Email address" value={email} onChange={(e)=>setEmail(e.target.value)} required /><button type="submit" className="rounded-xl bg-white text-black px-4 py-2 font-semibold">Subscribe</button></form>{msg && <div className="mt-2 text-xs text-white/80">{msg}</div>}</div>
+            <div><div className="font-semibold">Stay in the Loop</div><form className="mt-3 flex gap-2" onSubmit={submit} noValidate><input type="email" className="flex-1 rounded-xl px-3 py-2 text-black" placeholder="Email address" value={email} onChange={(e) => setEmail(e.target.value)} required /><button type="submit" className="rounded-xl bg-white text-black px-4 py-2 font-semibold">Subscribe</button></form>{msg && <div className="mt-2 text-xs text-white/80">{msg}</div>}</div>
           </div>
           <div className="text-xs text-white/60 text-center pb-8">© 2025 Alexander A. All rights reserved.</div>
         </footer>
@@ -223,7 +232,8 @@
         </div>
       </div>);
     }
-    ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
   </script>
 </body>
+
 </html>
