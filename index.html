@@ -76,6 +76,30 @@
                 <a href="#couples" className="mt-4 inline-flex text-sm font-semibold underline">Try the Couples Exercise</a>
               </aside>
             </div>
+            <div className="mt-6 grid md:grid-cols-2 gap-6">
+              <div className="rounded-2xl bg-white/90 border border-black/10 shadow-sm overflow-hidden">
+                <div className="p-6 border-b border-black/10">
+                  <h3 className="font-semibold text-lg">Boundary Scripts — Exercise PDF</h3>
+                  <p className="mt-2 text-sm text-black/70">Read, print, or download using the viewer toolbar.</p>
+                </div>
+                <iframe
+                  title="Boundary Scripts PDF"
+                  className="w-full h-[520px]"
+                  src="boundary%20scripts.pdf#toolbar=1&view=FitH"
+                ></iframe>
+              </div>
+              <div className="rounded-2xl bg-white/90 border border-black/10 shadow-sm overflow-hidden">
+                <div className="p-6 border-b border-black/10">
+                  <h3 className="font-semibold text-lg">Introduce the Book — Exercise PDF</h3>
+                  <p className="mt-2 text-sm text-black/70">Three ways to introduce the workbook. Use the toolbar to print/download.</p>
+                </div>
+                <iframe
+                  title="Introduce the Book PDF"
+                  className="w-full h-[520px]"
+                  src="Introduce%20the%20book.pdf#toolbar=1&view=FitH"
+                ></iframe>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -186,20 +210,82 @@
             <div className="mt-6 grid md:grid-cols-2 gap-6">
               <div className="rounded-2xl p-6 bg-white/90 border border-black/10 shadow-sm">
                 <h3 className="font-semibold text-lg">Grounding Statement Exercise</h3>
-                <p className="mt-2 text-sm text-black/70">Pick one steadying sentence for high-heat moments. Keep it short, present‑tense, respectful.</p>
-                <ol className="mt-3 text-sm text-black/80 list-decimal pl-5 space-y-1">
-                  <li>Start with “I…” or “I’m…”.</li><li>Add one action: pause, breathe, lower voice, step back.</li><li>Add your why: for respect/connection/safety.</li>
-                </ol>
+                <p className="mt-2 text-sm text-black/70">Pick one steadying sentence you can say to yourself when heat rises. Keep it short, present‑tense, and respectful.</p>
+                <div className="mt-4 rounded-xl bg-white/80 border border-black/10 p-4">
+                  <div className="text-sm font-semibold">How to craft it</div>
+                  <ol className="mt-2 text-sm text-black/80 list-decimal pl-5 space-y-1">
+                    <li>Start in the present tense: <span className="italic">“I…”</span> or <span className="italic">“I’m…”</span>.</li>
+                    <li>Add one action: <span className="italic">pause</span>, <span className="italic">breathe</span>, <span className="italic">lower my voice</span>, <span className="italic">step back</span>.</li>
+                    <li>Include your why: <span className="italic">“for respect / connection / safety.”</span></li>
+                  </ol>
+                  <div className="mt-3 text-xs text-black/60">Aim for 5–9 words you can say out loud, even in public.</div>
+                </div>
+                <div className="mt-4">
+                  <div className="text-sm font-semibold">Try these for common moments</div>
+                  <ul className="mt-2 text-sm text-black/80 list-disc pl-5 space-y-1">
+                    <li><span className="font-medium">Feeling disrespected:</span> “Pause. I speak with respect.”</li>
+                    <li><span className="font-medium">Criticism stings:</span> “I breathe; then I ask a question.”</li>
+                    <li><span className="font-medium">Late/traffic/stress:</span> “Slow is safe. Connection matters.”</li>
+                    <li><span className="font-medium">Voice getting loud:</span> “Lower voice. Choose calm.”</li>
+                  </ul>
+                </div>
+                <div className="my-4 border-t border-black/10"></div>
                 <ul className="mt-3 text-sm text-black/80 list-disc pl-5 space-y-1">
-                  <li>“I’m safe; I can slow down.”</li><li>“Pause, then speak with respect.”</li><li>“My goal is connection, not control.”</li>
+                  <li>“I’m safe; I can slow down.”</li>
+                  <li>“Pause, then speak with respect.”</li>
+                  <li>“My goal is connection, not control.”</li>
                 </ul>
+                <form className="mt-4 space-y-3" onSubmit={(e) => e.preventDefault()}>
+                  <div>
+                    <label className="block text-sm font-medium">My grounding statement</label>
+                    <input className="mt-1 w-full rounded-xl border border-black/20 bg-white/80 px-3 py-2" placeholder="e.g., I’m safe; I can slow down." />
+                    <div className="mt-1 text-xs text-black/60">Keep it short (under 10 words).</div>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium">When I will use it</label>
+                    <input className="mt-1 w-full rounded-xl border border-black/20 bg-white/80 px-3 py-2" placeholder="e.g., before I answer; when my voice rises" />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium">My why (optional)</label>
+                    <input className="mt-1 w-full rounded-xl border border-black/20 bg-white/80 px-3 py-2" placeholder="e.g., I want connection and safety with her" />
+                  </div>
+                  <div className="rounded-xl bg-white/80 border border-black/10 p-3 text-xs text-black/70"><span className="font-semibold">10‑second drill:</span> inhale 4, hold 2, exhale 4 while you say your line twice.</div>
+                  <div className="flex flex-wrap gap-3">
+                    <button type="button" onClick={() => window.print()} className="rounded-xl bg-black text-white px-4 py-2 text-sm font-semibold shadow">Print Exercise</button>
+                    <a href={AMAZON_URL} target="_blank" rel="noopener noreferrer" className="rounded-xl px-4 py-2 text-sm font-semibold border border-black/20 bg-white/90">Get the Workbook</a>
+                  </div>
+                </form>
               </div>
+
               <div className="rounded-2xl p-6 bg-white/90 border border-black/10 shadow-sm">
                 <h3 className="font-semibold text-lg">Trigger Timeline Worksheet</h3>
-                <p className="mt-2 text-sm text-black/70">Map a recent heated moment to see the pattern and choose better next time.</p>
-                <ul className="mt-3 text-sm text-black/80 list-disc pl-5 space-y-1">
-                  <li>Situation/Trigger</li><li>Body Signals</li><li>Story in My Head</li><li>What I Did</li><li>Better Next Time</li>
-                </ul>
+                <p className="mt-2 text-sm text-black/70">Map a recent heated moment so you can see the pattern and choose better next time.</p>
+                <form className="mt-4 space-y-3" onSubmit={(e) => e.preventDefault()}>
+                  <div>
+                    <label className="block text-sm font-medium">1) Situation / Trigger</label>
+                    <textarea className="mt-1 w-full rounded-xl border border-black/20 bg-white/80 px-3 py-2" rows="2" placeholder="What set things off? Where were you? Who was there?" />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium">2) Body Signals</label>
+                    <textarea className="mt-1 w-full rounded-xl border border-black/20 bg-white/80 px-3 py-2" rows="2" placeholder="Tight chest, heat in face, jaw clench, fast speech …" />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium">3) Story In My Head</label>
+                    <textarea className="mt-1 w-full rounded-xl border border-black/20 bg-white/80 px-3 py-2" rows="2" placeholder="e.g., She doesn’t respect me; I’m not being heard …" />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium">4) What I Did</label>
+                    <textarea className="mt-1 w-full rounded-xl border border-black/20 bg-white/80 px-3 py-2" rows="2" placeholder="Raised voice, walked out, shut down …" />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium">5) Better Next Time</label>
+                    <textarea className="mt-1 w-full rounded-xl border border-black/20 bg-white/80 px-3 py-2" rows="2" placeholder="Pause 3 seconds; use my grounding statement; ask for a 10‑minute reset …" />
+                  </div>
+                  <div className="flex flex-wrap gap-3">
+                    <button type="button" onClick={() => window.print()} className="rounded-xl bg-black text-white px-4 py-2 text-sm font-semibold shadow">Print Worksheet</button>
+                    <a href={AMAZON_URL} target="_blank" rel="noopener noreferrer" className="rounded-xl px-4 py-2 text-sm font-semibold border border-black/20 bg-white/90">Buy the Workbook</a>
+                  </div>
+                </form>
               </div>
             </div>
           </div>
