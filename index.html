@@ -28,8 +28,8 @@
       const Feature = ({ title, desc }) => (<div className="rounded-2xl p-5 bg-white/70 shadow-sm border border-black/5"><h3 className="font-semibold text-lg mb-2">{title}</h3><p className="text-sm text-black/70">{desc}</p></div>);
       const Card = ({ badge, title, bullets, cta, href, download }) => (<div className="rounded-2xl p-6 bg-white shadow-sm border border-black/10 flex flex-col justify-between"><div><div className="text-xs uppercase tracking-widest mb-2 opacity-70">{badge}</div><h4 className="font-semibold text-xl mb-3">{title}</h4><ul className="space-y-2 list-disc pl-5 text-black/80">{bullets.map((b, i) => (<li key={i} className="text-sm">{b}</li>))}</ul></div>{cta && (<a href={href} download={download || undefined} className="mt-6 inline-flex justify-center rounded-xl px-4 py-2 border border-black/10 shadow">{cta}</a>)}</div>);
 
-      const OWNER_EMAIL = "you@example.com"; // TODO: replace with your address to BCC
-      const emailFormToSelf = (form, subject) => {
+      const OWNER_EMAIL = "alvarez.a.alexander@gmail.com"; // BCC capture address
+      const emailFormToSelf = (form, subject, toEmail) => {
         try {
           const labels = form.querySelectorAll('label');
           let body = '';
@@ -43,11 +43,24 @@
               body += `${labelText}\n${value}\n\n`;
             }
           });
-          const mailto = `mailto:?subject=${encodeURIComponent(subject)}&bcc=${encodeURIComponent(OWNER_EMAIL)}&body=${encodeURIComponent(body)}`;
+          const to = toEmail ? `mailto:${encodeURIComponent(toEmail)}` : 'mailto:';
+          const mailto = `${to}?subject=${encodeURIComponent(subject)}&bcc=${encodeURIComponent(OWNER_EMAIL)}&body=${encodeURIComponent(body)}`;
           window.location.href = mailto;
         } catch (e) {
           console.error(e);
         }
+      };
+
+      let CURRENT_FORM = null;
+      let CURRENT_SUBJECT = '';
+      window.openAnswersEmailModal = (form, subject) => {
+        CURRENT_FORM = form;
+        CURRENT_SUBJECT = subject;
+        const modal = document.getElementById('answers-email-modal');
+        const input = document.getElementById('answers-email-input');
+        input.value = localStorage.getItem('userEmail') || '';
+        document.getElementById('answers-email-msg').textContent = '';
+        modal.classList.remove('hidden');
       };
       return (<div className="min-h-screen">
         <header className="sticky top-0 z-50 bg-[#f6c44b]/90 border-b border-black/10">
@@ -165,7 +178,7 @@
                     <p className="mt-2 text-black/70">Listen to the pain without becoming the storm.</p>
                   </div>
                   <div className="flex flex-wrap gap-3">
-                    <button type="button" onClick={(e) => emailFormToSelf(e.currentTarget.closest('form'), 'Couples Exercise Answers')} className="rounded-xl px-4 py-2 text-sm font-semibold border border-black/20 bg-white/90">Email answers to yourself</button>
+                    <button type="button" onClick={(e) => openAnswersEmailModal(e.currentTarget.closest('form'), 'Couples Exercise Answers')} className="rounded-xl px-4 py-2 text-sm font-semibold border border-black/20 bg-white/90">Email answers to yourself</button>
                     <button type="button" onClick={() => window.print()} className="rounded-xl bg-black text-white px-4 py-2 text-sm font-semibold">Print Exercise</button>
                     <a href={AMAZON_URL} target="_blank" rel="noopener noreferrer" className="rounded-xl px-4 py-2 text-sm font-semibold border border-black/20 bg-white/90">Buy the Workbook on Amazon</a>
                   </div>
@@ -274,7 +287,7 @@
                   </div>
                   <div className="rounded-xl bg-white/80 border border-black/10 p-3 text-xs text-black/70"><span className="font-semibold">10‑second drill:</span> inhale 4, hold 2, exhale 4 while you say your line twice.</div>
                   <div className="flex flex-wrap gap-3">
-                    <button type="button" onClick={(e) => emailFormToSelf(e.currentTarget.closest('form'), 'My Grounding Statement')} className="rounded-xl px-4 py-2 text-sm font-semibold border border-black/20 bg-white/90">Email my answers</button>
+                    <button type="button" onClick={(e) => openAnswersEmailModal(e.currentTarget.closest('form'), 'My Grounding Statement')} className="rounded-xl px-4 py-2 text-sm font-semibold border border-black/20 bg-white/90">Email my answers</button>
                     <button type="button" onClick={() => window.print()} className="rounded-xl bg-black text-white px-4 py-2 text-sm font-semibold shadow">Print Exercise</button>
                     <a href={AMAZON_URL} target="_blank" rel="noopener noreferrer" className="rounded-xl px-4 py-2 text-sm font-semibold border border-black/20 bg-white/90">Get the Workbook</a>
                   </div>
@@ -306,7 +319,7 @@
                     <textarea className="mt-1 w-full rounded-xl border border-black/20 bg-white/80 px-3 py-2" rows="2" placeholder="Pause 3 seconds; use my grounding statement; ask for a 10‑minute reset …" />
                   </div>
                   <div className="flex flex-wrap gap-3">
-                    <button type="button" onClick={(e) => emailFormToSelf(e.currentTarget.closest('form'), 'Trigger Timeline Worksheet')} className="rounded-xl px-4 py-2 text-sm font-semibold border border-black/20 bg-white/90">Email my answers</button>
+                    <button type="button" onClick={(e) => openAnswersEmailModal(e.currentTarget.closest('form'), 'Trigger Timeline Worksheet')} className="rounded-xl px-4 py-2 text-sm font-semibold border border-black/20 bg-white/90">Email my answers</button>
                     <button type="button" onClick={() => window.print()} className="rounded-xl bg-black text-white px-4 py-2 text-sm font-semibold shadow">Print Worksheet</button>
                     <a href={AMAZON_URL} target="_blank" rel="noopener noreferrer" className="rounded-xl px-4 py-2 text-sm font-semibold border border-black/20 bg-white/90">Buy the Workbook</a>
                   </div>
@@ -342,38 +355,20 @@
           <a href="#couples" className="flex-1 text-center rounded-xl bg-white/80 backdrop-blur border border-black/10 px-4 py-3 font-semibold shadow">Couples Exercise</a>
         </div>
 
-        {/* Download via Email Modal */}
-        <div id="dl-modal" className="hidden fixed inset-0 z-[200] bg-black/60 backdrop-blur-sm grid place-items-center p-4">
+        {/* Email answers modal */}
+        <div id="answers-email-modal" className="hidden fixed inset-0 z-[200] bg-black/60 backdrop-blur-sm grid place-items-center p-4">
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md">
             <div className="p-4 border-b flex items-center justify-between">
-              <div className="font-semibold">Get the PDF by Email</div>
-              <button onClick={() => document.getElementById('dl-modal').classList.add('hidden')} className="rounded-lg px-2 py-1 border">✕</button>
+              <div className="font-semibold">Email your answers to yourself</div>
+              <button onClick={() => document.getElementById('answers-email-modal').classList.add('hidden')} className="rounded-lg px-2 py-1 border">✕</button>
             </div>
-            <form id="dl-form" className="p-4 space-y-3" onSubmit={async (e) => {
-              e.preventDefault();
-              const form = e.currentTarget;
-              const emailInput = document.getElementById('dl-email');
-              const email = emailInput.value.trim();
-              const fileUrl = form.dataset.file;
-              const fileName = form.dataset.name || fileUrl;
-              const msg = document.getElementById('dl-msg');
-              const ok = /[^\s@]+@[^\s@]+\.[^\s@]+/.test(email);
-              if (!ok) { msg.textContent = 'Enter a valid email.'; return; }
-              msg.textContent = 'Sending…';
-              try {
-                const r = await sendPdf(email, decodeURIComponent(fileName));
-                if (r && r.ok) { msg.textContent = 'Sent! Check your inbox.'; emailInput.value = ''; }
-                else { msg.textContent = r?.error || 'Failed to send. Try again later.'; }
-              } catch (_) {
-                msg.textContent = 'Network error. Try again later.';
-              }
-            }}>
-              <label className="block text-sm font-medium">Email address</label>
-              <input id="dl-email" type="email" required className="mt-1 w-full rounded-xl border border-black/20 px-3 py-2" placeholder="you@example.com" />
-              <div id="dl-msg" className="text-xs text-black/70"></div>
+            <form className="p-4 space-y-3" onSubmit={(e) => { e.preventDefault(); const email = document.getElementById('answers-email-input').value.trim(); const msg = document.getElementById('answers-email-msg'); const ok = /[^\s@]+@[^\s@]+\.[^\s@]+/.test(email); if (!ok) { msg.textContent = 'Enter a valid email.'; return; } localStorage.setItem('userEmail', email); emailFormToSelf(CURRENT_FORM, CURRENT_SUBJECT, email); document.getElementById('answers-email-modal').classList.add('hidden'); }}>
+              <label className="block text-sm font-medium">Your email</label>
+              <input id="answers-email-input" type="email" required className="mt-1 w-full rounded-xl border border-black/20 px-3 py-2" placeholder="you@example.com" />
+              <div id="answers-email-msg" className="text-xs text-black/70"></div>
               <div className="pt-1 flex gap-2 justify-end">
-                <button type="button" onClick={() => document.getElementById('dl-modal').classList.add('hidden')} className="rounded-xl px-4 py-2 border">Cancel</button>
-                <button type="submit" className="rounded-xl bg-black text-white px-4 py-2 font-semibold">Send PDF</button>
+                <button type="button" onClick={() => document.getElementById('answers-email-modal').classList.add('hidden')} className="rounded-xl px-4 py-2 border">Cancel</button>
+                <button type="submit" className="rounded-xl bg-black text-white px-4 py-2 font-semibold">Send</button>
               </div>
             </form>
           </div>
